@@ -1,3 +1,9 @@
+debconf-translator (0.3.1-1) unstable; urgency=low
+
+  * Add Swedish translation (100%).
+
+ -- Daniel Nylander <daniel@danielnylander.se>  Tue, 04 Mar 2026 19:35:00 +0100
+
 debconf-translator (0.3.0-1) unstable; urgency=low
 
   * PO Editor: auto-resizing translation boxes with scrollbar
