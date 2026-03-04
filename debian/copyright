@@ -1,0 +1,7 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: debconf-translator
+Upstream-Contact: Daniel Nylander <daniel@danielnylander.se>
+
+Files: *
+Copyright: 2026 Daniel Nylander
+License: GPL-3.0-or-later

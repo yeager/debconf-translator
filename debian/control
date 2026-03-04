@@ -1,0 +1,16 @@
+Source: debconf-translator
+Section: devel
+Priority: optional
+Maintainer: Daniel Nylander <daniel@danielnylander.se>
+Build-Depends: debhelper-compat (= 13), python3, dh-python
+Standards-Version: 4.6.2
+Homepage: https://github.com/yeager/debconf-translator
+
+Package: debconf-translator
+Architecture: all
+Depends: ${python3:Depends}, ${misc:Depends}, python3-gi, gir1.2-gtk-4.0, gir1.2-adw-1
+Description: GTK4 tool for managing Debconf template translations
+ Debconf Translation Manager helps translators work with Debian package
+ configuration dialogs (debconf templates). Features include a dashboard
+ with translation statistics, built-in PO editor, review board tracking,
+ and BTS submission tools.

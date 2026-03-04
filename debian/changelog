@@ -1,0 +1,5 @@
+debconf-translator (0.1.0-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Daniel Nylander <daniel@danielnylander.se>  Tue, 04 Mar 2026 15:00:00 +0100

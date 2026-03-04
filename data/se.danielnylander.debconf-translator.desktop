@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Debconf Translation Manager
+Comment=Translate Debian package configuration dialogs
+Exec=debconf-translator
+Icon=se.danielnylander.debconf-translator
+Terminal=false
+Type=Application
+Categories=Development;Translation;
+Keywords=debconf;translation;l10n;debian;po;
+StartupWMClass=se.danielnylander.debconf-translator

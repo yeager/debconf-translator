@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[o:danielnylander:p:debconf-translator:r:messages]
+file_filter  = po/<lang>.po
+source_file  = po/debconf-translator.pot
+source_lang  = en
+type         = PO
