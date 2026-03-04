@@ -1,6 +1,6 @@
+from . import _
 """Scrape debconf translation status from debian.org."""
 
-import gettext
 import gzip
 import logging
 import re
@@ -12,7 +12,6 @@ from typing import Optional
 
 from .models import DebconfPackage, LanguageStats, ReviewItem
 
-_ = gettext.gettext
 log = logging.getLogger(__name__)
 
 BASE_URL = "https://www.debian.org/international/l10n/po-debconf"

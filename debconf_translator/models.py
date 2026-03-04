@@ -1,3 +1,4 @@
+from . import _
 """Data models for debconf translation tracking."""
 
 import json
@@ -74,5 +75,3 @@ class LanguageStats:
         return self.translated / self.total * 100
 
 
-import gettext
-_ = gettext.gettext

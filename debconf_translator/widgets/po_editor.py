@@ -1,6 +1,6 @@
+from .. import _
 """Inline PO file editor widget."""
 
-import gettext
 import re
 
 import gi
@@ -8,7 +8,6 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 from gi.repository import Adw, Gdk, Gtk, GLib, Pango
 
-_ = gettext.gettext
 
 
 class POEntry:
@@ -242,7 +241,7 @@ class POEditorWidget(Gtk.Box):
         source_box.append(copy_btn)
         box.append(source_box)
 
-        msgid_label = Gtk.Label(label=entry.msgid)
+        msgid_label = Gtk.Label(label=entry.msgid.replace("\\n", "↵\n"))
         msgid_label.set_halign(Gtk.Align.START)
         msgid_label.set_wrap(True)
         msgid_label.set_xalign(0)
@@ -274,8 +273,8 @@ class POEditorWidget(Gtk.Box):
         n_lines = max(1, entry.msgstr.count("\n") + 1)
         # ~24px per line, min 36px, max 200px
         height = min(200, max(36, n_lines * 24 + 8))
-        scrolled_tv.set_min_content_height(36)
-        scrolled_tv.set_max_content_height(200)
+        scrolled_tv.set_min_content_height(60)
+        scrolled_tv.set_max_content_height(300)
 
         # Track changes + auto-resize on edit
         text_view.get_buffer().connect("changed", self._on_text_changed, idx)

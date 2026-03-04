@@ -1,8 +1,6 @@
 """GTK4/Adwaita application entry point."""
 
-import gettext
 import json
-import locale
 import logging
 import os
 import sys
@@ -13,17 +11,8 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 from gi.repository import Adw, Gio, GLib, Gtk
 
-from . import __app_id__, __version__
+from . import __app_id__, __version__, _
 
-# Set up locale and gettext
-try:
-    locale.bindtextdomain('debconf-translator', '/usr/share/locale')
-    locale.textdomain('debconf-translator')
-except AttributeError:
-    pass  # macOS lacks locale.bindtextdomain
-gettext.bindtextdomain('debconf-translator', '/usr/share/locale')
-gettext.textdomain('debconf-translator')
-_ = gettext.gettext
 log = logging.getLogger(__name__)
 
 CONFIG_DIR = Path(GLib.get_user_config_dir()) / "debconf-translator"
@@ -50,7 +39,6 @@ class DebconfTranslatorApp(Adw.Application):
             application_id=__app_id__,
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS,
         )
-        self.config = load_config()
         self._setup_actions()
 
     def _setup_actions(self):
@@ -78,28 +66,7 @@ class DebconfTranslatorApp(Adw.Application):
         win = self.props.active_window
         if not win:
             win = DebconfTranslatorWindow(application=self)
-
-        if not self.config.get("first_run_done"):
-            self._show_welcome(win)
-            self.config["first_run_done"] = True
-            save_config(self.config)
-
         win.present()
-
-    def _show_welcome(self, parent):
-        dialog = Adw.AlertDialog.new(
-            _("Welcome to Debconf Translation Manager"),
-            _(
-                "Translate Debian package configuration dialogs.\n\n"
-                "• Browse untranslated debconf templates\n"
-                "• Edit translations with the built-in PO editor\n"
-                "• Track review status from l10n.debian.org\n"
-                "• Generate BTS bug reports for submission"
-            ),
-        )
-        dialog.add_response("ok", _("Get Started"))
-        dialog.set_default_response("ok")
-        dialog.present(parent)
 
     def _on_quit(self, *_args):
         self.quit()
@@ -119,7 +86,6 @@ class DebconfTranslatorApp(Adw.Application):
         about.set_comments(
             _("GTK4/Adwaita tool for managing Debconf template translations")
         )
-
         debug_lines = [
             f"debconf-translator {__version__}",
             f"GTK {Gtk.get_major_version()}.{Gtk.get_minor_version()}.{Gtk.get_micro_version()}",
@@ -161,12 +127,6 @@ SHORTCUTS_UI = """\
               <object class="GtkShortcutsShortcut">
                 <property name="title" translatable="yes">Toggle Dark Theme</property>
                 <property name="accelerator">&lt;primary&gt;t</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkShortcutsShortcut">
-                <property name="title" translatable="yes">Keyboard Shortcuts</property>
-                <property name="accelerator">&lt;primary&gt;question</property>
               </object>
             </child>
             <child>

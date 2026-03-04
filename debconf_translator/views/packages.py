@@ -1,6 +1,6 @@
+from .. import _
 """Package browser and translation view."""
 
-import gettext
 import threading
 from pathlib import Path
 
@@ -13,7 +13,6 @@ from ..scraper import fetch_language_status, fetch_pot_file
 from ..models import DebconfPackage
 from ..widgets.po_editor import POEditorWidget, POEntry, parse_po, entries_to_po
 
-_ = gettext.gettext
 
 DATA_DIR = Path(GLib.get_user_data_dir()) / "debconf-translator"
 
@@ -34,10 +33,20 @@ class PackagesView(Gtk.Box):
 
         toolbar.append(Gtk.Label(label=_("Language:")))
         self._lang_entry = Gtk.Entry()
-        self._lang_entry.set_text("sv")
+        from ..app import load_config
+        self._lang_entry.set_text(load_config().get("lang_code", "sv"))
         self._lang_entry.set_max_width_chars(6)
         self._lang_entry.set_width_chars(6)
         toolbar.append(self._lang_entry)
+
+        # Sort dropdown
+        toolbar.append(Gtk.Label(label=_("Sort:")))
+        self._sort_combo = Gtk.DropDown.new_from_strings([
+            _("Strings ↓"), _("A-Z"), _("Strings ↑")
+        ])
+        self._sort_combo.set_selected(0)
+        self._sort_combo.connect("notify::selected", self._on_sort_changed)
+        toolbar.append(self._sort_combo)
 
         fetch_btn = Gtk.Button(label=_("Fetch Packages"))
         fetch_btn.add_css_class("suggested-action")
@@ -108,12 +117,23 @@ class PackagesView(Gtk.Box):
 
         threading.Thread(target=do_fetch, daemon=True).start()
 
-    def _populate_packages(self, stats, packages):
+    def _on_sort_changed(self, *_args):
+        if self._packages:
+            self._populate_packages(None, self._packages, resort_only=True)
+
+    def _populate_packages(self, stats, packages, resort_only=False):
         while row := self._pkg_list.get_first_child():
             self._pkg_list.remove(row)
-        self._packages = packages
+        if not resort_only:
+            self._packages = packages
 
-        packages.sort(key=lambda p: p.strings_total, reverse=True)
+        sort_idx = self._sort_combo.get_selected()
+        if sort_idx == 0:  # Strings descending
+            packages.sort(key=lambda p: p.strings_total, reverse=True)
+        elif sort_idx == 1:  # Alphabetical
+            packages.sort(key=lambda p: p.name)
+        elif sort_idx == 2:  # Strings ascending
+            packages.sort(key=lambda p: p.strings_total)
 
         for pkg in packages:
             row = Adw.ActionRow()
@@ -123,13 +143,14 @@ class PackagesView(Gtk.Box):
             row.pkg = pkg
             self._pkg_list.append(row)
 
-        self._status.set_text(
-            _("%(translated)d/%(total)d strings — %(pkgs)d untranslated packages") % {
-                "translated": stats.translated,
-                "total": stats.total,
-                "pkgs": len(packages),
-            }
-        )
+        if stats:
+            self._status.set_text(
+                _("%(translated)d/%(total)d strings — %(pkgs)d untranslated packages") % {
+                    "translated": stats.translated,
+                    "total": stats.total,
+                    "pkgs": len(packages),
+                }
+            )
 
     def _on_package_selected(self, _listbox, row):
         if row is None or not hasattr(row, "pkg"):

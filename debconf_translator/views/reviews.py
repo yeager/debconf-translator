@@ -1,6 +1,6 @@
+from .. import _
 """Review Board view — shows debconf templates under review on l10n.debian.org."""
 
-import gettext
 import threading
 
 import gi
@@ -11,7 +11,6 @@ from gi.repository import Adw, Gtk, GLib, Gio
 from ..scraper import fetch_reviews
 from ..models import ReviewItem
 
-_ = gettext.gettext
 
 
 class ReviewsView(Gtk.Box):

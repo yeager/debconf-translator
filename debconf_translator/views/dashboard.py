@@ -1,6 +1,6 @@
+from .. import _
 """Dashboard view showing translation statistics and translator rankings."""
 
-import gettext
 import threading
 
 import gi
@@ -11,7 +11,6 @@ from gi.repository import Adw, Gtk, GLib
 from ..scraper import fetch_language_status, DEBIAN_LANGUAGES, TranslatorStats
 from ..models import LanguageStats
 
-_ = gettext.gettext
 
 
 class DashboardView(Gtk.Box):
@@ -76,10 +75,15 @@ class DashboardView(Gtk.Box):
 
         def do_fetch():
             results = []
-            sv_translators = []
+            primary_translators = []
+            primary_lang = self._get_primary_lang()
 
             # Fetch a selection of popular languages
             priority_langs = ["sv", "da", "de", "fr", "es", "it", "nl", "pl", "pt_BR", "nb", "fi", "ru", "ja", "cs", "zh_CN"]
+            # Ensure primary lang is first
+            if primary_lang in priority_langs:
+                priority_langs.remove(primary_lang)
+            priority_langs.insert(0, primary_lang)
 
             for lang_code in priority_langs:
                 try:
@@ -87,16 +91,20 @@ class DashboardView(Gtk.Box):
                     lang_name = dict(DEBIAN_LANGUAGES).get(lang_code, lang_code)
                     stats.name = lang_name
                     results.append((stats, len(pkgs)))
-                    if lang_code == "sv":
-                        sv_translators = translators
+                    if lang_code == primary_lang:
+                        primary_translators = translators
                 except Exception:
                     pass
 
-            GLib.idle_add(self._on_all_stats_loaded, results, sv_translators)
+            GLib.idle_add(self._on_all_stats_loaded, results, primary_translators, primary_lang)
 
         threading.Thread(target=do_fetch, daemon=True).start()
 
-    def _on_all_stats_loaded(self, results, sv_translators):
+    def _get_primary_lang(self):
+        from ..app import load_config
+        return load_config().get("lang_code", "sv")
+
+    def _on_all_stats_loaded(self, results, primary_translators, primary_lang="sv"):
         self._spinner.stop()
 
         # Clear
@@ -160,15 +168,15 @@ class DashboardView(Gtk.Box):
         self._content_box.append(lang_group)
 
         # --- Top Translators (Swedish) ---
-        if sv_translators:
+        if primary_translators:
             trans_group = Adw.PreferencesGroup()
-            trans_group.set_title(_("🏆 Top Translators — Swedish"))
+            trans_group.set_title(_("🏆 Top Translators — %s") % dict(DEBIAN_LANGUAGES).get(primary_lang, primary_lang))
             trans_group.set_description(
                 _("Ranked by total translated strings in debconf templates")
             )
 
             medals = ["🥇", "🥈", "🥉"]
-            for i, t in enumerate(sv_translators[:15]):
+            for i, t in enumerate(primary_translators[:15]):
                 row = Adw.ActionRow()
                 medal = medals[i] if i < 3 else f"#{i + 1}"
                 row.set_title(f"{medal} {t.name}")
@@ -191,10 +199,10 @@ class DashboardView(Gtk.Box):
             self._content_box.append(trans_group)
 
         # --- Untranslated packages for Swedish ---
-        sv_result = next((r for r in results if r[0].code == "sv"), None)
+        sv_result = next((r for r in results if r[0].code == primary_lang), None)
         if sv_result and sv_result[1] > 0:
             info_label = Gtk.Label(
-                label=_("💡 Go to the Packages tab to start translating untranslated Swedish packages.")
+                label=_("💡 Go to the Packages tab to start translating untranslated packages.")
             )
             info_label.add_css_class("dim-label")
             info_label.set_wrap(True)

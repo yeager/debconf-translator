@@ -1,12 +1,10 @@
 """CLI interface for debconf-translator."""
 
 import argparse
-import gettext
 import sys
 
-from .. import __version__
+from .. import __version__, _
 
-_ = gettext.gettext
 
 
 def main():

@@ -1,6 +1,6 @@
 """Main application window with sidebar navigation."""
+from . import _
 
-import gettext
 import logging
 
 import gi
@@ -8,7 +8,6 @@ gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 from gi.repository import Adw, Gio, GLib, Gtk
 
-_ = gettext.gettext
 log = logging.getLogger(__name__)
 
 NAV_ITEMS = [
@@ -34,6 +33,14 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
 
         self._setup_actions()
         self._build_ui()
+
+        # Show welcome on first run
+        from .app import load_config, save_config
+        config = load_config()
+        if not config.get("first_run_done"):
+            GLib.idle_add(self._show_welcome)
+            config["first_run_done"] = True
+            save_config(config)
 
     def _setup_actions(self):
         for nav_id, _, _ in NAV_ITEMS:
@@ -66,7 +73,6 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
         status_bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         status_bar.append(self._status_label)
 
-        # Timestamp
         self._time_label = Gtk.Label(label="")
         self._time_label.add_css_class("dim-label")
         self._time_label.set_halign(Gtk.Align.END)
@@ -83,7 +89,6 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
         content_outer.append(Gtk.Separator())
         content_outer.append(status_bar)
 
-        # Content header
         content_header = Adw.HeaderBar()
         self._content_title = Adw.WindowTitle.new(_("Dashboard"), "")
         content_header.set_title_widget(self._content_title)
@@ -128,9 +133,28 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
         scrolled.set_child(sidebar_list)
         scrolled.set_vexpand(True)
 
+        # Settings button at bottom of sidebar
+        settings_btn = Gtk.Button()
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        box.append(Gtk.Image.new_from_icon_name("emblem-system-symbolic"))
+        box.append(Gtk.Label(label=_("Settings")))
+        box.set_halign(Gtk.Align.START)
+        settings_btn.set_child(box)
+        settings_btn.add_css_class("flat")
+        settings_btn.set_margin_start(8)
+        settings_btn.set_margin_end(8)
+        settings_btn.set_margin_top(4)
+        settings_btn.set_margin_bottom(8)
+        settings_btn.connect("clicked", self._on_settings_clicked)
+
+        sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        sidebar_box.append(scrolled)
+        sidebar_box.append(Gtk.Separator())
+        sidebar_box.append(settings_btn)
+
         toolbar = Adw.ToolbarView()
         toolbar.add_top_bar(header)
-        toolbar.set_content(scrolled)
+        toolbar.set_content(sidebar_box)
 
         self._sidebar_list = sidebar_list
         return toolbar
@@ -146,12 +170,14 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
         from .views.packages import PackagesView
         from .views.reviews import ReviewsView
         from .views.submit import SubmitView
+        from .views.settings import SettingsView
 
         view_classes = {
             "dashboard": DashboardView,
             "packages": PackagesView,
             "reviews": ReviewsView,
             "submit": SubmitView,
+            "settings": SettingsView,
         }
         for nav_id, cls in view_classes.items():
             view = cls(window=self)
@@ -175,14 +201,18 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
             if nid == nav_id:
                 self._content_title.set_title(label)
                 break
+        if nav_id == "settings":
+            self._content_title.set_title(_("Settings"))
+
+    def _on_settings_clicked(self, _btn):
+        self._sidebar_list.unselect_all()
+        self._navigate_to("settings")
 
     def open_package_editor(self, pkg):
-        """Navigate to packages view and open a specific package."""
         self._navigate_to("packages")
         view = self._views.get("packages")
         if view:
             view.open_package(pkg)
-        # Select packages row
         for i, (nid, _, _) in enumerate(NAV_ITEMS):
             if nid == "packages":
                 row = self._sidebar_list.get_row_at_index(i)
@@ -190,7 +220,43 @@ class DebconfTranslatorWindow(Adw.ApplicationWindow):
                     self._sidebar_list.select_row(row)
                 break
 
-    def set_status(self, text: str):
+    def set_status(self, text):
         self._status_label.set_text(text)
         from datetime import datetime
         self._time_label.set_text(datetime.now().strftime("%H:%M:%S"))
+
+    def show_error(self, title, message):
+        """Show error in a popup dialog."""
+        dialog = Adw.AlertDialog.new(title, message)
+        dialog.add_response("ok", _("OK"))
+        dialog.present(self)
+
+    def show_success(self, title, message):
+        """Show success popup with checkmark."""
+        dialog = Adw.AlertDialog.new(f"✅ {title}", message)
+        dialog.add_response("ok", _("OK"))
+        dialog.set_default_response("ok")
+        dialog.present(self)
+
+    def _show_welcome(self):
+        """Welcome dialog explaining the app."""
+        dialog = Adw.AlertDialog.new(
+            _("Welcome to Debconf Translation Manager"),
+            _(
+                "This tool helps you translate Debian package configuration dialogs "
+                "(debconf templates) and submit them to the Debian Bug Tracking System.\n\n"
+                "📊 Dashboard — View translation statistics for all languages\n"
+                "📦 Packages — Browse untranslated packages and edit translations\n"
+                "🔍 Review Board — Check which templates are under review\n"
+                "📧 Submit — Send completed translations to Debian BTS\n"
+                "⚙ Settings — Configure language, email, and preferences\n\n"
+                "Workflow:\n"
+                "1. Go to Packages and fetch untranslated packages\n"
+                "2. Select a package and translate the strings\n"
+                "3. Save your work\n"
+                "4. Go to Submit to send translations to Debian"
+            ),
+        )
+        dialog.add_response("ok", _("Get Started"))
+        dialog.set_default_response("ok")
+        dialog.present(self)

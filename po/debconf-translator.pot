@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: debconf-translator 0.3.0\n"
+"Project-Id-Version: debconf-translator 0.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-04 19:16+0100\n"
+"POT-Creation-Date: 2026-03-04 21:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,534 +17,612 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: debconf_translator/app.py:91
-msgid "Welcome to Debconf Translation Manager"
-msgstr ""
-
-#: debconf_translator/app.py:93
-msgid ""
-"Translate Debian package configuration dialogs.\n"
-"\n"
-"• Browse untranslated debconf templates\n"
-"• Edit translations with the built-in PO editor\n"
-"• Track review status from l10n.debian.org\n"
-"• Generate BTS bug reports for submission"
-msgstr ""
-
-#: debconf_translator/app.py:100
-msgid "Get Started"
-msgstr ""
-
-#: debconf_translator/app.py:110 debconf_translator/window.py:29
+#: debconf_translator/app.py:77 debconf_translator/window.py:28
 msgid "Debconf Translation Manager"
 msgstr ""
 
-#: debconf_translator/app.py:120
+#: debconf_translator/app.py:87
 msgid "GTK4/Adwaita tool for managing Debconf template translations"
 msgstr ""
 
-#: debconf_translator/models.py:40 debconf_translator/widgets/po_editor.py:142
+#: debconf_translator/models.py:41 debconf_translator/widgets/po_editor.py:141
 msgid "Untranslated"
 msgstr ""
 
-#: debconf_translator/models.py:41
+#: debconf_translator/models.py:42
 msgid "In Progress"
 msgstr ""
 
-#: debconf_translator/models.py:42 debconf_translator/widgets/po_editor.py:142
+#: debconf_translator/models.py:43 debconf_translator/widgets/po_editor.py:141
 msgid "Translated"
 msgstr ""
 
-#: debconf_translator/models.py:43
+#: debconf_translator/models.py:44
 msgid "Submitted"
 msgstr ""
 
-#: debconf_translator/window.py:15 debconf_translator/window.py:88
+#: debconf_translator/window.py:14 debconf_translator/window.py:93
 msgid "Dashboard"
 msgstr ""
 
-#: debconf_translator/window.py:16
+#: debconf_translator/window.py:15
 msgid "Packages"
 msgstr ""
 
-#: debconf_translator/window.py:17 debconf_translator/views/reviews.py:31
+#: debconf_translator/window.py:16 debconf_translator/views/reviews.py:30
 msgid "Review Board"
 msgstr ""
 
-#: debconf_translator/window.py:18
+#: debconf_translator/window.py:17
 msgid "Submit"
 msgstr ""
 
-#: debconf_translator/window.py:50
+#: debconf_translator/window.py:57
 msgid "Navigation"
 msgstr ""
 
-#: debconf_translator/window.py:58
+#: debconf_translator/window.py:65
 msgid "Ready"
 msgstr ""
 
-#: debconf_translator/window.py:92
+#: debconf_translator/window.py:97
 msgid "Toggle Dark Theme"
 msgstr ""
 
-#: debconf_translator/window.py:100
+#: debconf_translator/window.py:105
 msgid "Content"
 msgstr ""
 
-#: debconf_translator/window.py:140
+#: debconf_translator/window.py:140 debconf_translator/window.py:205
+#: debconf_translator/views/settings.py:30
+msgid "Settings"
+msgstr ""
+
+#: debconf_translator/window.py:164
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: debconf_translator/window.py:141
+#: debconf_translator/window.py:165
 msgid "About Debconf Translation Manager"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:30
+#: debconf_translator/window.py:231 debconf_translator/window.py:237
+msgid "OK"
+msgstr ""
+
+#: debconf_translator/window.py:244
+msgid "Welcome to Debconf Translation Manager"
+msgstr ""
+
+#: debconf_translator/window.py:246
+msgid ""
+"This tool helps you translate Debian package configuration dialogs (debconf "
+"templates) and submit them to the Debian Bug Tracking System.\n"
+"\n"
+"📊 Dashboard — View translation statistics for all languages\n"
+"📦 Packages — Browse untranslated packages and edit translations\n"
+"🔍 Review Board — Check which templates are under review\n"
+"📧 Submit — Send completed translations to Debian BTS\n"
+"⚙ Settings — Configure language, email, and preferences\n"
+"\n"
+"Workflow:\n"
+"1. Go to Packages and fetch untranslated packages\n"
+"2. Select a package and translate the strings\n"
+"3. Save your work\n"
+"4. Go to Submit to send translations to Debian"
+msgstr ""
+
+#: debconf_translator/window.py:260
+msgid "Get Started"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:29
 msgid "Translation Overview"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:37
+#: debconf_translator/views/dashboard.py:36
 msgid "Refresh All Statistics"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:49
+#: debconf_translator/views/dashboard.py:48
 msgid "Click refresh to load statistics"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:71
+#: debconf_translator/views/dashboard.py:70
 msgid "Fetching statistics for multiple languages…"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:107
+#: debconf_translator/views/dashboard.py:115
 msgid "Failed to fetch statistics"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:111
+#: debconf_translator/views/dashboard.py:119
 #, python-format
 msgid "Loaded statistics for %d languages"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:116
+#: debconf_translator/views/dashboard.py:124
 msgid "Language Statistics"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:117
+#: debconf_translator/views/dashboard.py:125
 msgid "Translation progress across languages (sorted by completion)"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:127
+#: debconf_translator/views/dashboard.py:135
 #, python-format
 msgid ""
 "%(translated)d/%(total)d strings (%(pct).1f%%) — %(pkgs)d untranslated "
 "packages"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:165
-msgid "🏆 Top Translators — Swedish"
+#: debconf_translator/views/dashboard.py:173
+#, python-format
+msgid "🏆 Top Translators — %s"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:167
+#: debconf_translator/views/dashboard.py:175
 msgid "Ranked by total translated strings in debconf templates"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:176
+#: debconf_translator/views/dashboard.py:184
 #, python-format
 msgid "%(pkgs)d packages — %(strings)d strings"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:197
-msgid ""
-"💡 Go to the Packages tab to start translating untranslated Swedish packages."
+#: debconf_translator/views/dashboard.py:205
+msgid "💡 Go to the Packages tab to start translating untranslated packages."
 msgstr ""
 
-#: debconf_translator/views/packages.py:35
+#: debconf_translator/views/packages.py:34
 msgid "Language:"
 msgstr ""
 
-#: debconf_translator/views/packages.py:42
+#: debconf_translator/views/packages.py:43
+msgid "Sort:"
+msgstr ""
+
+#: debconf_translator/views/packages.py:45
+msgid "Strings ↓"
+msgstr ""
+
+#: debconf_translator/views/packages.py:45
+msgid "A-Z"
+msgstr ""
+
+#: debconf_translator/views/packages.py:45
+msgid "Strings ↑"
+msgstr ""
+
+#: debconf_translator/views/packages.py:51
 msgid "Fetch Packages"
 msgstr ""
 
-#: debconf_translator/views/packages.py:48
+#: debconf_translator/views/packages.py:57
 msgid "Filter packages…"
 msgstr ""
 
-#: debconf_translator/views/packages.py:88
+#: debconf_translator/views/packages.py:97
 msgid "Select a Package"
 msgstr ""
 
-#: debconf_translator/views/packages.py:89
+#: debconf_translator/views/packages.py:98
 msgid "Choose a package from the list to start translating"
 msgstr ""
 
-#: debconf_translator/views/packages.py:103
+#: debconf_translator/views/packages.py:112
 #, python-format
 msgid "Fetching packages for %s…"
 msgstr ""
 
-#: debconf_translator/views/packages.py:121
+#: debconf_translator/views/packages.py:141
 #, python-format
 msgid "%d strings"
 msgstr ""
 
-#: debconf_translator/views/packages.py:127
+#: debconf_translator/views/packages.py:148
 #, python-format
 msgid "%(translated)d/%(total)d strings — %(pkgs)d untranslated packages"
 msgstr ""
 
-#: debconf_translator/views/packages.py:177
+#: debconf_translator/views/packages.py:198
 msgid "Could Not Load Template"
 msgstr ""
 
-#: debconf_translator/views/packages.py:178
+#: debconf_translator/views/packages.py:199
 #, python-format
 msgid "Failed to download the POT file for %s"
 msgstr ""
 
-#: debconf_translator/views/packages.py:194
+#: debconf_translator/views/packages.py:215
 msgid "Save"
 msgstr ""
 
-#: debconf_translator/views/packages.py:199
+#: debconf_translator/views/packages.py:220
 msgid "Export .po"
 msgstr ""
 
-#: debconf_translator/views/packages.py:220
+#: debconf_translator/views/packages.py:241
 #, python-format
 msgid "Saved %s"
 msgstr ""
 
-#: debconf_translator/views/packages.py:235
+#: debconf_translator/views/packages.py:256
 #, python-format
 msgid "Exported to %s"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:38
+#: debconf_translator/views/reviews.py:37
 msgid "Refresh Reviews"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:46
+#: debconf_translator/views/reviews.py:45
 msgid ""
 "Templates under review may change. Wait until review is complete before "
 "translating."
 msgstr ""
 
-#: debconf_translator/views/reviews.py:94
+#: debconf_translator/views/reviews.py:93
 msgid "Fetching reviews…"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:110
+#: debconf_translator/views/reviews.py:109
 msgid "No active reviews found"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:113
+#: debconf_translator/views/reviews.py:112
 #, python-format
 msgid "%d packages under review"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:120
+#: debconf_translator/views/reviews.py:119
 msgid "review"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:133
+#: debconf_translator/views/reviews.py:132
 msgid "Open Bug in Browser"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:154
+#: debconf_translator/views/reviews.py:153
 #, python-format
 msgid "Review Details: %s"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:158
+#: debconf_translator/views/reviews.py:157
 msgid "Status"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:164
+#: debconf_translator/views/reviews.py:163
 msgid "Bug Number"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:170
+#: debconf_translator/views/reviews.py:169
 msgid "String Changes:"
 msgstr ""
 
-#: debconf_translator/views/reviews.py:210
+#: debconf_translator/views/reviews.py:209
 msgid "⚠ Do not translate this package until the review is complete."
 msgstr ""
 
-#: debconf_translator/views/submit.py:43
-msgid "Submit Translations"
+#: debconf_translator/views/settings.py:39
+msgid "Language"
 msgstr ""
 
-#: debconf_translator/views/submit.py:51
-msgid ""
-"Submit translations to the Debian Bug Tracking System via email.\n"
-"Bug reports are sent to submit@bugs.debian.org with the .po file attached."
+#: debconf_translator/views/settings.py:48
+msgid "Translation Language"
 msgstr ""
 
-#: debconf_translator/views/submit.py:63
-msgid "Email Settings"
+#: debconf_translator/views/settings.py:49
+msgid "Language you translate into"
 msgstr ""
 
-#: debconf_translator/views/submit.py:64
-msgid "Configure how to send bug reports"
+#: debconf_translator/views/settings.py:66
+msgid "Translator"
 msgstr ""
 
-#: debconf_translator/views/submit.py:71
-msgid "Send Method"
-msgstr ""
-
-#: debconf_translator/views/submit.py:72
-msgid "How to deliver the bug report email"
-msgstr ""
-
-#: debconf_translator/views/submit.py:74
-msgid "Gmail (SMTP)"
-msgstr ""
-
-#: debconf_translator/views/submit.py:75
-msgid "Custom SMTP"
-msgstr ""
-
-#: debconf_translator/views/submit.py:76
-msgid "Export Only (no send)"
-msgstr ""
-
-#: debconf_translator/views/submit.py:86
-msgid "Your Email"
-msgstr ""
-
-#: debconf_translator/views/submit.py:92
+#: debconf_translator/views/settings.py:72
 msgid "Full Name"
 msgstr ""
 
-#: debconf_translator/views/submit.py:98
+#: debconf_translator/views/settings.py:78
+msgid "Email"
+msgstr ""
+
+#: debconf_translator/views/settings.py:87
+msgid "Email Sending"
+msgstr ""
+
+#: debconf_translator/views/settings.py:88
+msgid "Configure how to send bug reports to Debian BTS"
+msgstr ""
+
+#: debconf_translator/views/settings.py:94
+msgid "Send Method"
+msgstr ""
+
+#: debconf_translator/views/settings.py:96
+msgid "Gmail (SMTP)"
+msgstr ""
+
+#: debconf_translator/views/settings.py:97
+msgid "Custom SMTP"
+msgstr ""
+
+#: debconf_translator/views/settings.py:98
+msgid "Export Only (no send)"
+msgstr ""
+
+#: debconf_translator/views/settings.py:107
 msgid "SMTP Server"
 msgstr ""
 
-#: debconf_translator/views/submit.py:104
+#: debconf_translator/views/settings.py:113
 msgid "SMTP Port"
 msgstr ""
 
-#: debconf_translator/views/submit.py:110
+#: debconf_translator/views/settings.py:119
 msgid "Password / App Password"
 msgstr ""
 
-#: debconf_translator/views/submit.py:115
-msgid "Language Code"
+#: debconf_translator/views/settings.py:126
+msgid "Display"
 msgstr ""
 
-#: debconf_translator/views/submit.py:120
-msgid "Save Settings"
+#: debconf_translator/views/settings.py:132
+msgid "Default Package Sort"
 msgstr ""
 
-#: debconf_translator/views/submit.py:128
-msgid "📧 Gmail Setup"
+#: debconf_translator/views/settings.py:134
+msgid "String Count (most first)"
 msgstr ""
 
-#: debconf_translator/views/submit.py:130
+#: debconf_translator/views/settings.py:135
+msgid "Alphabetical"
+msgstr ""
+
+#: debconf_translator/views/settings.py:136
+msgid "Popcon Rank"
+msgstr ""
+
+#: debconf_translator/views/settings.py:152
+msgid "Reset to Defaults"
+msgstr ""
+
+#: debconf_translator/views/submit.py:56
+msgid "Submit Translations"
+msgstr ""
+
+#: debconf_translator/views/submit.py:64
 msgid ""
-"To use Gmail:\n"
-"1. Enable 2-factor authentication on your Google account\n"
-"2. Go to myaccount.google.com → Security → App passwords\n"
-"3. Generate an app password for 'Mail'\n"
-"4. Use that password here (not your regular Gmail password)"
+"Submit translations to the Debian Bug Tracking System.\n"
+"Configure email settings in Settings (⚙) before sending."
 msgstr ""
 
-#: debconf_translator/views/submit.py:143
+#: debconf_translator/views/submit.py:76
 msgid "Saved Translations"
 msgstr ""
 
-#: debconf_translator/views/submit.py:144
+#: debconf_translator/views/submit.py:77
 msgid "Select translations to submit"
 msgstr ""
 
-#: debconf_translator/views/submit.py:154
+#: debconf_translator/views/submit.py:87
 msgid "Refresh List"
 msgstr ""
 
-#: debconf_translator/views/submit.py:167
+#: debconf_translator/views/submit.py:100
 msgid "Preview Email"
 msgstr ""
 
-#: debconf_translator/views/submit.py:171
+#: debconf_translator/views/submit.py:104
 msgid "Export to File"
 msgstr ""
 
-#: debconf_translator/views/submit.py:175
+#: debconf_translator/views/submit.py:108
 msgid "Send to BTS"
 msgstr ""
 
-#: debconf_translator/views/submit.py:237
-msgid "Settings saved"
-msgstr ""
-
-#: debconf_translator/views/submit.py:245
+#: debconf_translator/views/submit.py:148
 msgid "No saved translations found"
 msgstr ""
 
-#: debconf_translator/views/submit.py:257
+#: debconf_translator/views/submit.py:169
+#, python-format
+msgid "%(translated)d/%(total)d strings — Already submitted"
+msgstr ""
+
+#: debconf_translator/views/submit.py:175
 #, python-format
 msgid "%(translated)d/%(total)d strings"
 msgstr ""
 
-#: debconf_translator/views/submit.py:270
+#: debconf_translator/views/submit.py:179
+#, python-format
+msgid " — %d fuzzy"
+msgstr ""
+
+#: debconf_translator/views/submit.py:195
 #, python-format
 msgid "%d translations found"
 msgstr ""
 
-#: debconf_translator/views/submit.py:314
+#: debconf_translator/views/submit.py:240
 msgid "No translations selected."
 msgstr ""
 
-#: debconf_translator/views/submit.py:347
+#: debconf_translator/views/submit.py:273
+msgid "Exported"
+msgstr ""
+
+#: debconf_translator/views/submit.py:274
 #, python-format
 msgid "Exported %d bug reports to %s"
 msgstr ""
 
-#: debconf_translator/views/submit.py:354
-msgid "No translations selected"
+#: debconf_translator/views/submit.py:281
+msgid "Nothing Selected"
 msgstr ""
 
-#: debconf_translator/views/submit.py:367
-msgid "Missing Credentials"
+#: debconf_translator/views/submit.py:281
+msgid "Select translations to submit."
 msgstr ""
 
-#: debconf_translator/views/submit.py:368
-msgid "Please enter your email and password/app password."
+#: debconf_translator/views/submit.py:288
+msgid "Missing Settings"
 msgstr ""
 
-#: debconf_translator/views/submit.py:370
-#: debconf_translator/views/submit.py:440
-msgid "OK"
+#: debconf_translator/views/submit.py:289
+msgid "Please configure your email in Settings (⚙) first."
 msgstr ""
 
-#: debconf_translator/views/submit.py:376
-msgid "Send Bug Reports?"
-msgstr ""
-
-#: debconf_translator/views/submit.py:377
+#: debconf_translator/views/submit.py:305
 #, python-format
-msgid ""
-"This will send %d bug report(s) to submit@bugs.debian.org.\n"
-"\n"
-"Are you sure?"
+msgid "⚠ Already submitted: %s"
 msgstr ""
 
-#: debconf_translator/views/submit.py:380
+#: debconf_translator/views/submit.py:310
+#, python-format
+msgid "⚠ %s has %d fuzzy strings"
+msgstr ""
+
+#: debconf_translator/views/submit.py:314
+#, python-format
+msgid "Send %d bug report(s) to submit@bugs.debian.org?"
+msgstr ""
+
+#: debconf_translator/views/submit.py:318
+msgid "Confirm Submission"
+msgstr ""
+
+#: debconf_translator/views/submit.py:319
 msgid "Cancel"
 msgstr ""
 
-#: debconf_translator/views/submit.py:381
+#: debconf_translator/views/submit.py:320
 msgid "Send"
 msgstr ""
 
-#: debconf_translator/views/submit.py:398
+#: debconf_translator/views/submit.py:341
+msgid "Missing Password"
+msgstr ""
+
+#: debconf_translator/views/submit.py:342
+msgid "Enter your password in Settings before sending."
+msgstr ""
+
+#: debconf_translator/views/submit.py:352
 msgid "Sending…"
 msgstr ""
 
-#: debconf_translator/views/submit.py:430
-#, python-format
-msgid "✅ Sent %d bug reports successfully!"
+#: debconf_translator/views/submit.py:394
+msgid "Submitted Successfully"
 msgstr ""
 
-#: debconf_translator/views/submit.py:434
+#: debconf_translator/views/submit.py:395
+#, python-format
+msgid ""
+"Sent %d translation(s) to Debian BTS:\n"
+"%s"
+msgstr ""
+
+#: debconf_translator/views/submit.py:405
+msgid "Some Submissions Failed"
+msgstr ""
+
+#: debconf_translator/views/submit.py:408
 #, python-format
 msgid "Sent %(ok)d, failed %(fail)d"
 msgstr ""
 
-#: debconf_translator/views/submit.py:437
-msgid "Some Submissions Failed"
-msgstr ""
-
-#: debconf_translator/widgets/po_editor.py:121
+#: debconf_translator/widgets/po_editor.py:120
 msgid "Copy source to all empty translations"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:127
+#: debconf_translator/widgets/po_editor.py:126
 msgid "Copy all translations to clipboard"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:134
+#: debconf_translator/widgets/po_editor.py:133
 msgid "Paste translations from clipboard"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:142
+#: debconf_translator/widgets/po_editor.py:141
 msgid "All"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:142
-#: debconf_translator/widgets/po_editor.py:289
+#: debconf_translator/widgets/po_editor.py:141
+#: debconf_translator/widgets/po_editor.py:288
 msgid "Fuzzy"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:146
+#: debconf_translator/widgets/po_editor.py:145
 msgid "Show:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:205
+#: debconf_translator/widgets/po_editor.py:204
 #, python-format
 msgid "%(translated)d/%(total)d translated, %(fuzzy)d fuzzy"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:230
+#: debconf_translator/widgets/po_editor.py:229
 msgid "Source:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:238
+#: debconf_translator/widgets/po_editor.py:237
 msgid "Copy source to translation (marks as fuzzy)"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:253
+#: debconf_translator/widgets/po_editor.py:252
 msgid "Translation:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:337
+#: debconf_translator/widgets/po_editor.py:336
 #, python-format
 msgid " — Copied %d source strings"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:355
+#: debconf_translator/widgets/po_editor.py:354
 #, python-format
 msgid " — Copied %d translations"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:398
+#: debconf_translator/widgets/po_editor.py:397
 #, python-format
 msgid " — Pasted %d translations"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:15
+#: debconf_translator/cli/__init__.py:13
 msgid "Debconf Translation Manager — manage debconf template translations"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:22
+#: debconf_translator/cli/__init__.py:20
 msgid "Launch the graphical interface"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:25
+#: debconf_translator/cli/__init__.py:23
 msgid "Show translation status for a language"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:26
+#: debconf_translator/cli/__init__.py:24
 msgid "Language code (default: sv)"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:27 debconf_translator/cli/__init__.py:37
+#: debconf_translator/cli/__init__.py:25 debconf_translator/cli/__init__.py:35
 msgid "Output as JSON"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:28
+#: debconf_translator/cli/__init__.py:26
 msgid "Minimal output"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:31
+#: debconf_translator/cli/__init__.py:29
 msgid "Download POT files for untranslated packages"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:33
+#: debconf_translator/cli/__init__.py:31
 msgid "Output directory"
 msgstr ""
 
-#: debconf_translator/cli/__init__.py:36
+#: debconf_translator/cli/__init__.py:34
 msgid "Show packages under review"
 msgstr ""

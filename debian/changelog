@@ -1,3 +1,21 @@
+debconf-translator (0.4.0-1) unstable; urgency=low
+
+  * Fix gettext/LANG support — centralized locale binding
+  * Add Settings view (⚙) in sidebar bottom
+  * Move all settings (language, SMTP, display) to Settings view
+  * Language-neutral UI (no hardcoded Swedish strings)
+  * Sort packages: string count, alphabetical, ascending/descending
+  * Bigger translation fields (min 60px, max 300px) with scrollbar
+  * Show newlines in source text as ↵
+  * Per-entry copy-source button (marks fuzzy)
+  * Track submitted packages with ✅ green checkmark
+  * Warn on resubmission and fuzzy strings
+  * Error popups and success confirmation dialogs
+  * Welcome dialog explaining workflow
+  * Auto-detect language from LANG environment variable
+
+ -- Daniel Nylander <daniel@danielnylander.se>  Tue, 04 Mar 2026 21:15:00 +0100
+
 debconf-translator (0.3.1-1) unstable; urgency=low
 
   * Add Swedish translation (100%).
