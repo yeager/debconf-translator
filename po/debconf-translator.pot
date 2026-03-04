@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: debconf-translator 0.1.1\n"
+"Project-Id-Version: debconf-translator 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-04 16:56+0100\n"
+"POT-Creation-Date: 2026-03-04 17:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,7 +43,7 @@ msgstr ""
 msgid "GTK4/Adwaita tool for managing Debconf template translations"
 msgstr ""
 
-#: debconf_translator/models.py:40 debconf_translator/widgets/po_editor.py:122
+#: debconf_translator/models.py:40 debconf_translator/widgets/po_editor.py:142
 msgid "Untranslated"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 msgid "In Progress"
 msgstr ""
 
-#: debconf_translator/models.py:42 debconf_translator/widgets/po_editor.py:122
+#: debconf_translator/models.py:42 debconf_translator/widgets/po_editor.py:142
 msgid "Translated"
 msgstr ""
 
@@ -99,32 +99,62 @@ msgstr ""
 msgid "About Debconf Translation Manager"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:31
+#: debconf_translator/views/dashboard.py:30
 msgid "Translation Overview"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:38
-msgid "Refresh Statistics"
+#: debconf_translator/views/dashboard.py:37
+msgid "Refresh All Statistics"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:51
+#: debconf_translator/views/dashboard.py:49
 msgid "Click refresh to load statistics"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:74
-msgid "Fetching statistics…"
+#: debconf_translator/views/dashboard.py:71
+msgid "Fetching statistics for multiple languages…"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:91
+#: debconf_translator/views/dashboard.py:107
+msgid "Failed to fetch statistics"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:111
+#, python-format
+msgid "Loaded statistics for %d languages"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:116
+msgid "Language Statistics"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:117
+msgid "Translation progress across languages (sorted by completion)"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:127
 #, python-format
 msgid ""
-"Swedish: %(translated)d/%(total)d strings (%(pct).1f%%) — %(pkgs)d "
-"untranslated packages"
+"%(translated)d/%(total)d strings (%(pct).1f%%) — %(pkgs)d untranslated "
+"packages"
 msgstr ""
 
-#: debconf_translator/views/dashboard.py:105
+#: debconf_translator/views/dashboard.py:165
+msgid "🏆 Top Translators — Swedish"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:167
+msgid "Ranked by total translated strings in debconf templates"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:176
 #, python-format
-msgid "%(n)d strings — Section: %(section)s"
+msgid "%(pkgs)d packages — %(strings)d strings"
+msgstr ""
+
+#: debconf_translator/views/dashboard.py:197
+msgid ""
+"💡 Go to the Packages tab to start translating untranslated Swedish packages."
 msgstr ""
 
 #: debconf_translator/views/packages.py:35
@@ -306,30 +336,57 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:122
+#: debconf_translator/widgets/po_editor.py:121
+msgid "Copy source to all empty translations"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:127
+msgid "Copy all translations to clipboard"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:134
+msgid "Paste translations from clipboard"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:142
 msgid "All"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:122
-#: debconf_translator/widgets/po_editor.py:245
+#: debconf_translator/widgets/po_editor.py:142
+#: debconf_translator/widgets/po_editor.py:265
 msgid "Fuzzy"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:126
+#: debconf_translator/widgets/po_editor.py:146
 msgid "Show:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:185
+#: debconf_translator/widgets/po_editor.py:205
 #, python-format
 msgid "%(translated)d/%(total)d translated, %(fuzzy)d fuzzy"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:209
+#: debconf_translator/widgets/po_editor.py:229
 msgid "Source:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:222
+#: debconf_translator/widgets/po_editor.py:242
 msgid "Translation:"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:299
+#, python-format
+msgid " — Copied %d source strings"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:317
+#, python-format
+msgid " — Copied %d translations"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:360
+#, python-format
+msgid " — Pasted %d translations"
 msgstr ""
 
 #: debconf_translator/cli/__init__.py:15

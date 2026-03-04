@@ -6,7 +6,7 @@ import re
 import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Adw, Gtk, GLib, Pango
+from gi.repository import Adw, Gdk, Gtk, GLib, Pango
 
 _ = gettext.gettext
 
@@ -115,6 +115,26 @@ class POEditorWidget(Gtk.Box):
         self._stats_label.set_halign(Gtk.Align.START)
         self._stats_label.set_hexpand(True)
         toolbar.append(self._stats_label)
+
+        # Copy source to translation button
+        copy_src_btn = Gtk.Button(icon_name="edit-copy-symbolic")
+        copy_src_btn.set_tooltip_text(_("Copy source to all empty translations"))
+        copy_src_btn.connect("clicked", self._on_copy_source_to_empty)
+        toolbar.append(copy_src_btn)
+
+        # Copy all translations to clipboard
+        copy_btn = Gtk.Button(icon_name="edit-copy-symbolic")
+        copy_btn.set_tooltip_text(_("Copy all translations to clipboard"))
+        copy_btn.add_css_class("flat")
+        copy_btn.connect("clicked", self._on_copy_all)
+        toolbar.append(copy_btn)
+
+        # Paste translations from clipboard
+        paste_btn = Gtk.Button(icon_name="edit-paste-symbolic")
+        paste_btn.set_tooltip_text(_("Paste translations from clipboard"))
+        paste_btn.add_css_class("flat")
+        paste_btn.connect("clicked", self._on_paste_all)
+        toolbar.append(paste_btn)
 
         # Filter
         filter_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
@@ -264,6 +284,83 @@ class POEditorWidget(Gtk.Box):
 
     def _on_filter_changed(self, *_args):
         self._rebuild_list()
+
+    def _on_copy_source_to_empty(self, _btn):
+        """Copy source strings to all empty translation fields."""
+        count = 0
+        for entry in self._entries:
+            if entry.msgid and not entry.msgstr.strip():
+                entry.msgstr = entry.msgid
+                count += 1
+        if count:
+            self._modified = True
+            self._rebuild_list()
+            self._stats_label.set_text(
+                self._stats_label.get_text() + _(" — Copied %d source strings") % count
+            )
+
+    def _on_copy_all(self, _btn):
+        """Copy all translations to clipboard as PO-formatted text."""
+        lines = []
+        for entry in self._entries:
+            if entry.msgid and entry.msgstr.strip():
+                lines.append(f"msgid \"{_escape(entry.msgid)}\"")
+                lines.append(f"msgstr \"{_escape(entry.msgstr)}\"")
+                lines.append("")
+
+        text = "\n".join(lines)
+        clipboard = self.get_clipboard()
+        content = Gdk.ContentProvider.new_for_value(text)
+        clipboard.set_content(content)
+
+        self._stats_label.set_text(
+            self._stats_label.get_text() + _(" — Copied %d translations") % len([
+                e for e in self._entries if e.msgid and e.msgstr.strip()
+            ])
+        )
+
+    def _on_paste_all(self, _btn):
+        """Paste translations from clipboard (PO format: msgid/msgstr pairs)."""
+        clipboard = self.get_clipboard()
+
+        def on_read(clipboard, result):
+            try:
+                text = clipboard.read_text_finish(result)
+            except Exception:
+                return
+
+            if not text:
+                return
+
+            # Parse pasted PO content
+            pasted = {}
+            current_id = None
+            for line in text.split("\n"):
+                line = line.strip()
+                if line.startswith("msgid "):
+                    current_id = _extract_string(line)
+                elif line.startswith("msgstr ") and current_id:
+                    pasted[current_id] = _extract_string(line)
+                    current_id = None
+
+            if not pasted:
+                return
+
+            count = 0
+            for entry in self._entries:
+                if entry.msgid in pasted and pasted[entry.msgid]:
+                    entry.msgstr = pasted[entry.msgid]
+                    count += 1
+
+            if count:
+                self._modified = True
+                GLib.idle_add(self._rebuild_list)
+                GLib.idle_add(
+                    self._stats_label.set_text,
+                    self._stats_label.get_text() + _(" — Pasted %d translations") % count
+                )
+
+        clipboard.read_text_async(None, on_read)
 
     def get_entries(self) -> list[POEntry]:
         return self._entries

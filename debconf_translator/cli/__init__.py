@@ -52,7 +52,7 @@ def main():
 
 def _cmd_status(args):
     from ..scraper import fetch_language_status
-    stats, packages = fetch_language_status(args.lang)
+    stats, packages, translators = fetch_language_status(args.lang)
 
     if args.json:
         import json
@@ -78,6 +78,13 @@ def _cmd_status(args):
             if len(packages) > 20:
                 print(f"  ... and {len(packages) - 20} more")
 
+        if translators:
+            medals = ["🥇", "🥈", "🥉"]
+            print(f"\nTop translators ({args.lang}):")
+            for i, t in enumerate(translators[:10]):
+                medal = medals[i] if i < 3 else f"  #{i+1}"
+                print(f"  {medal} {t.name:35s} {t.strings:5d} strings ({t.packages} pkgs)")
+
 
 def _cmd_fetch(args):
     from ..scraper import fetch_language_status, fetch_pot_file
@@ -86,7 +93,7 @@ def _cmd_fetch(args):
     outdir = Path(args.output)
     outdir.mkdir(parents=True, exist_ok=True)
 
-    _, packages = fetch_language_status(args.lang)
+    _, packages, _ = fetch_language_status(args.lang)
     print(f"Found {len(packages)} untranslated packages")
 
     for pkg in packages:

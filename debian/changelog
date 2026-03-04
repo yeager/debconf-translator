@@ -1,3 +1,12 @@
+debconf-translator (0.2.0-1) unstable; urgency=low
+
+  * Dashboard: multi-language statistics with progress bars
+  * Dashboard: top translator rankings with medal emojis
+  * PO Editor: copy/paste support (copy source, copy all, paste translations)
+  * CLI: translator stats in 'status' command
+
+ -- Daniel Nylander <daniel@danielnylander.se>  Tue, 04 Mar 2026 17:05:00 +0100
+
 debconf-translator (0.1.1-1) unstable; urgency=medium
 
   * Fix POT download: scrape real URLs from i18n.debian.org index page.

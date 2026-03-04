@@ -6,6 +6,7 @@ import logging
 import re
 import urllib.request
 import urllib.error
+from dataclasses import dataclass
 from html.parser import HTMLParser
 from typing import Optional
 
@@ -19,6 +20,14 @@ REVIEW_URL = "https://l10n.debian.org/coordination/english/en.by_status.html"
 POT_BASE = "https://www.debian.org/international/l10n/po-debconf/pot"
 
 
+@dataclass
+class TranslatorStats:
+    """Statistics for a single translator."""
+    name: str
+    packages: int = 0
+    strings: int = 0
+
+
 class _StatusParser(HTMLParser):
     """Parse the debconf l10n status page for a language."""
 
@@ -26,6 +35,7 @@ class _StatusParser(HTMLParser):
         super().__init__()
         self.packages: list[DebconfPackage] = []
         self.stats = LanguageStats(code="", name="")
+        self.translators: dict[str, TranslatorStats] = {}
         self._in_section = ""
         self._in_link = False
         self._current_pkg = ""
@@ -116,8 +126,11 @@ class _ReviewParser(HTMLParser):
             self._cell_data += data
 
 
-def fetch_language_status(lang_code: str) -> tuple[LanguageStats, list[DebconfPackage]]:
-    """Fetch translation status for a language from debian.org."""
+def fetch_language_status(lang_code: str) -> tuple[LanguageStats, list[DebconfPackage], list[TranslatorStats]]:
+    """Fetch translation status for a language from debian.org.
+
+    Returns (stats, untranslated_packages, translator_rankings).
+    """
     url = f"{BASE_URL}/{lang_code}"
     log.info("Fetching %s", url)
 
@@ -127,7 +140,7 @@ def fetch_language_status(lang_code: str) -> tuple[LanguageStats, list[DebconfPa
             html = resp.read().decode("utf-8", errors="replace")
     except urllib.error.URLError as e:
         log.error("Failed to fetch %s: %s", url, e)
-        return LanguageStats(code=lang_code, name=lang_code), []
+        return LanguageStats(code=lang_code, name=lang_code), [], []
 
     parser = _StatusParser()
     parser.feed(html)
@@ -136,7 +149,34 @@ def fetch_language_status(lang_code: str) -> tuple[LanguageStats, list[DebconfPa
     stats.code = lang_code
     stats.untranslated_packages = len(parser.packages)
 
-    return stats, parser.packages
+    # Regex fallback for stats (HTMLParser misses multi-node text)
+    m = re.search(r'(\d+)\s+strings are translated.*?from\s+(\d+)', html, re.DOTALL)
+    if m and stats.translated == 0:
+        stats.translated = int(m.group(1))
+        stats.total = int(m.group(2))
+
+    # Parse translator stats from 'done' table rows
+    # Pattern: <td>SCORE (Nt;Nf;Nu)</td>...<td>TRANSLATOR_NAME</td>
+    translators: dict[str, TranslatorStats] = {}
+    for m in re.finditer(
+        r'<td>\s*(\d+)%\s*\((\d+)t;\d+f;\d+u\)</td>'
+        r'.*?<td>([^<]+)</td>\s*</tr>',
+        html, re.DOTALL
+    ):
+        _pct, str_count, name = m.group(1), int(m.group(2)), m.group(3).strip()
+        # Decode HTML entities
+        name = name.replace("&#197;", "Å").replace("&#228;", "ä").replace("&#246;", "ö")
+        name = re.sub(r'&#\d+;', '', name).strip()
+        if name and name != "Translator":
+            if name not in translators:
+                translators[name] = TranslatorStats(name=name)
+            translators[name].packages += 1
+            translators[name].strings += str_count
+
+    # Sort by strings translated (descending)
+    ranked = sorted(translators.values(), key=lambda t: t.strings, reverse=True)
+
+    return stats, parser.packages, ranked
 
 
 _pot_url_cache: dict[str, str] = {}

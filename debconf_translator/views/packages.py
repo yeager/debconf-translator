@@ -103,7 +103,7 @@ class PackagesView(Gtk.Box):
         self._status.set_text(_("Fetching packages for %s…") % lang)
 
         def do_fetch():
-            stats, pkgs = fetch_language_status(lang)
+            stats, pkgs, _ = fetch_language_status(lang)
             GLib.idle_add(self._populate_packages, stats, pkgs)
 
         threading.Thread(target=do_fetch, daemon=True).start()
