@@ -2,7 +2,7 @@
 
 A GTK4/Adwaita tool for managing Debconf template translations in Debian and Ubuntu.
 
-![Screenshot](screenshots/debconf-translator.png)
+![Uploading image.png…]()
 
 ## Features
 
