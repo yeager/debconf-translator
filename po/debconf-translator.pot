@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: debconf-translator 0.2.0\n"
+"Project-Id-Version: debconf-translator 0.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-04 17:00+0100\n"
+"POT-Creation-Date: 2026-03-04 19:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: debconf_translator/app.py:82
+#: debconf_translator/app.py:91
 msgid "Welcome to Debconf Translation Manager"
 msgstr ""
 
-#: debconf_translator/app.py:84
+#: debconf_translator/app.py:93
 msgid ""
 "Translate Debian package configuration dialogs.\n"
 "\n"
@@ -31,15 +31,15 @@ msgid ""
 "• Generate BTS bug reports for submission"
 msgstr ""
 
-#: debconf_translator/app.py:91
+#: debconf_translator/app.py:100
 msgid "Get Started"
 msgstr ""
 
-#: debconf_translator/app.py:101 debconf_translator/window.py:29
+#: debconf_translator/app.py:110 debconf_translator/window.py:29
 msgid "Debconf Translation Manager"
 msgstr ""
 
-#: debconf_translator/app.py:111
+#: debconf_translator/app.py:120
 msgid "GTK4/Adwaita tool for managing Debconf template translations"
 msgstr ""
 
@@ -271,69 +271,189 @@ msgstr ""
 msgid "⚠ Do not translate this package until the review is complete."
 msgstr ""
 
-#: debconf_translator/views/submit.py:25
+#: debconf_translator/views/submit.py:43
 msgid "Submit Translations"
 msgstr ""
 
-#: debconf_translator/views/submit.py:33
-msgid "Submit completed translations to the Debian Bug Tracking System (BTS)."
+#: debconf_translator/views/submit.py:51
+msgid ""
+"Submit translations to the Debian Bug Tracking System via email.\n"
+"Bug reports are sent to submit@bugs.debian.org with the .po file attached."
 msgstr ""
 
-#: debconf_translator/views/submit.py:44
-msgid "Translator Information"
+#: debconf_translator/views/submit.py:63
+msgid "Email Settings"
 msgstr ""
 
-#: debconf_translator/views/submit.py:50
+#: debconf_translator/views/submit.py:64
+msgid "Configure how to send bug reports"
+msgstr ""
+
+#: debconf_translator/views/submit.py:71
+msgid "Send Method"
+msgstr ""
+
+#: debconf_translator/views/submit.py:72
+msgid "How to deliver the bug report email"
+msgstr ""
+
+#: debconf_translator/views/submit.py:74
+msgid "Gmail (SMTP)"
+msgstr ""
+
+#: debconf_translator/views/submit.py:75
+msgid "Custom SMTP"
+msgstr ""
+
+#: debconf_translator/views/submit.py:76
+msgid "Export Only (no send)"
+msgstr ""
+
+#: debconf_translator/views/submit.py:86
+msgid "Your Email"
+msgstr ""
+
+#: debconf_translator/views/submit.py:92
 msgid "Full Name"
 msgstr ""
 
-#: debconf_translator/views/submit.py:54
-msgid "Email"
+#: debconf_translator/views/submit.py:98
+msgid "SMTP Server"
 msgstr ""
 
-#: debconf_translator/views/submit.py:58
+#: debconf_translator/views/submit.py:104
+msgid "SMTP Port"
+msgstr ""
+
+#: debconf_translator/views/submit.py:110
+msgid "Password / App Password"
+msgstr ""
+
+#: debconf_translator/views/submit.py:115
 msgid "Language Code"
 msgstr ""
 
-#: debconf_translator/views/submit.py:66
+#: debconf_translator/views/submit.py:120
+msgid "Save Settings"
+msgstr ""
+
+#: debconf_translator/views/submit.py:128
+msgid "📧 Gmail Setup"
+msgstr ""
+
+#: debconf_translator/views/submit.py:130
+msgid ""
+"To use Gmail:\n"
+"1. Enable 2-factor authentication on your Google account\n"
+"2. Go to myaccount.google.com → Security → App passwords\n"
+"3. Generate an app password for 'Mail'\n"
+"4. Use that password here (not your regular Gmail password)"
+msgstr ""
+
+#: debconf_translator/views/submit.py:143
 msgid "Saved Translations"
 msgstr ""
 
-#: debconf_translator/views/submit.py:67
-msgid "Translations ready to submit"
+#: debconf_translator/views/submit.py:144
+msgid "Select translations to submit"
 msgstr ""
 
-#: debconf_translator/views/submit.py:77
+#: debconf_translator/views/submit.py:154
 msgid "Refresh List"
 msgstr ""
 
-#: debconf_translator/views/submit.py:91
+#: debconf_translator/views/submit.py:167
 msgid "Preview Email"
 msgstr ""
 
-#: debconf_translator/views/submit.py:95
-msgid "Generate Bug Report"
+#: debconf_translator/views/submit.py:171
+msgid "Export to File"
 msgstr ""
 
-#: debconf_translator/views/submit.py:173
+#: debconf_translator/views/submit.py:175
+msgid "Send to BTS"
+msgstr ""
+
+#: debconf_translator/views/submit.py:237
+msgid "Settings saved"
+msgstr ""
+
+#: debconf_translator/views/submit.py:245
+msgid "No saved translations found"
+msgstr ""
+
+#: debconf_translator/views/submit.py:257
+#, python-format
+msgid "%(translated)d/%(total)d strings"
+msgstr ""
+
+#: debconf_translator/views/submit.py:270
+#, python-format
+msgid "%d translations found"
+msgstr ""
+
+#: debconf_translator/views/submit.py:314
 msgid "No translations selected."
 msgstr ""
 
-#: debconf_translator/views/submit.py:198
-msgid "Bug Reports Generated"
+#: debconf_translator/views/submit.py:347
+#, python-format
+msgid "Exported %d bug reports to %s"
 msgstr ""
 
-#: debconf_translator/views/submit.py:199
+#: debconf_translator/views/submit.py:354
+msgid "No translations selected"
+msgstr ""
+
+#: debconf_translator/views/submit.py:367
+msgid "Missing Credentials"
+msgstr ""
+
+#: debconf_translator/views/submit.py:368
+msgid "Please enter your email and password/app password."
+msgstr ""
+
+#: debconf_translator/views/submit.py:370
+#: debconf_translator/views/submit.py:440
+msgid "OK"
+msgstr ""
+
+#: debconf_translator/views/submit.py:376
+msgid "Send Bug Reports?"
+msgstr ""
+
+#: debconf_translator/views/submit.py:377
 #, python-format
 msgid ""
-"Reports saved to:\n"
-"%s\n"
+"This will send %d bug report(s) to submit@bugs.debian.org.\n"
 "\n"
-"Use 'reportbug' or email submit@bugs.debian.org"
+"Are you sure?"
 msgstr ""
 
-#: debconf_translator/views/submit.py:201
-msgid "OK"
+#: debconf_translator/views/submit.py:380
+msgid "Cancel"
+msgstr ""
+
+#: debconf_translator/views/submit.py:381
+msgid "Send"
+msgstr ""
+
+#: debconf_translator/views/submit.py:398
+msgid "Sending…"
+msgstr ""
+
+#: debconf_translator/views/submit.py:430
+#, python-format
+msgid "✅ Sent %d bug reports successfully!"
+msgstr ""
+
+#: debconf_translator/views/submit.py:434
+#, python-format
+msgid "Sent %(ok)d, failed %(fail)d"
+msgstr ""
+
+#: debconf_translator/views/submit.py:437
+msgid "Some Submissions Failed"
 msgstr ""
 
 #: debconf_translator/widgets/po_editor.py:121
@@ -353,7 +473,7 @@ msgid "All"
 msgstr ""
 
 #: debconf_translator/widgets/po_editor.py:142
-#: debconf_translator/widgets/po_editor.py:265
+#: debconf_translator/widgets/po_editor.py:289
 msgid "Fuzzy"
 msgstr ""
 
@@ -366,25 +486,29 @@ msgstr ""
 msgid "%(translated)d/%(total)d translated, %(fuzzy)d fuzzy"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:229
+#: debconf_translator/widgets/po_editor.py:230
 msgid "Source:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:242
+#: debconf_translator/widgets/po_editor.py:238
+msgid "Copy source to translation (marks as fuzzy)"
+msgstr ""
+
+#: debconf_translator/widgets/po_editor.py:253
 msgid "Translation:"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:299
+#: debconf_translator/widgets/po_editor.py:337
 #, python-format
 msgid " — Copied %d source strings"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:317
+#: debconf_translator/widgets/po_editor.py:355
 #, python-format
 msgid " — Copied %d translations"
 msgstr ""
 
-#: debconf_translator/widgets/po_editor.py:360
+#: debconf_translator/widgets/po_editor.py:398
 #, python-format
 msgid " — Pasted %d translations"
 msgstr ""

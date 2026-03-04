@@ -2,6 +2,7 @@
 
 import gettext
 import json
+import locale
 import logging
 import os
 import sys
@@ -14,6 +15,14 @@ from gi.repository import Adw, Gio, GLib, Gtk
 
 from . import __app_id__, __version__
 
+# Set up locale and gettext
+try:
+    locale.bindtextdomain('debconf-translator', '/usr/share/locale')
+    locale.textdomain('debconf-translator')
+except AttributeError:
+    pass  # macOS lacks locale.bindtextdomain
+gettext.bindtextdomain('debconf-translator', '/usr/share/locale')
+gettext.textdomain('debconf-translator')
 _ = gettext.gettext
 log = logging.getLogger(__name__)
 

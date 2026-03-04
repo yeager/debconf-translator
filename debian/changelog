@@ -1,3 +1,14 @@
+debconf-translator (0.3.0-1) unstable; urgency=low
+
+  * PO Editor: auto-resizing translation boxes with scrollbar
+  * PO Editor: per-entry "copy source" button (marks as fuzzy)
+  * Submit: Gmail SMTP and custom SMTP support
+  * Submit: proper BTS email format with .po attachment
+  * Submit: export to .eml files
+  * Locale: proper gettext/locale binding (respects LANG)
+
+ -- Daniel Nylander <daniel@danielnylander.se>  Tue, 04 Mar 2026 19:20:00 +0100
+
 debconf-translator (0.2.0-1) unstable; urgency=low
 
   * Dashboard: multi-language statistics with progress bars

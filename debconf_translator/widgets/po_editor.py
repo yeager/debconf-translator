@@ -225,11 +225,22 @@ class POEditorWidget(Gtk.Box):
             comment.set_xalign(0)
             box.append(comment)
 
-        # Source string (msgid)
+        # Source string header + copy button
+        source_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
         source_label = Gtk.Label(label=_("Source:"))
         source_label.add_css_class("heading")
         source_label.set_halign(Gtk.Align.START)
-        box.append(source_label)
+        source_label.set_hexpand(True)
+        source_box.append(source_label)
+
+        # Copy source → translation button (marks fuzzy)
+        copy_btn = Gtk.Button(icon_name="edit-copy-symbolic")
+        copy_btn.set_tooltip_text(_("Copy source to translation (marks as fuzzy)"))
+        copy_btn.add_css_class("flat")
+        copy_btn.add_css_class("circular")
+        copy_btn.connect("clicked", self._on_copy_single_source, idx)
+        source_box.append(copy_btn)
+        box.append(source_box)
 
         msgid_label = Gtk.Label(label=entry.msgid)
         msgid_label.set_halign(Gtk.Align.START)
@@ -238,7 +249,7 @@ class POEditorWidget(Gtk.Box):
         msgid_label.set_selectable(True)
         box.append(msgid_label)
 
-        # Translation (msgstr) - editable
+        # Translation (msgstr) - editable, auto-resize with scrollbar
         trans_label = Gtk.Label(label=_("Translation:"))
         trans_label.add_css_class("heading")
         trans_label.set_halign(Gtk.Align.START)
@@ -254,14 +265,27 @@ class POEditorWidget(Gtk.Box):
         text_view.set_right_margin(8)
         text_view.add_css_class("card")
 
-        # Track changes
+        # Auto-resize: use ScrolledWindow with dynamic height
+        # Min 1 line, max 8 lines, scrollbar if more
+        scrolled_tv = Gtk.ScrolledWindow()
+        scrolled_tv.set_child(text_view)
+        scrolled_tv.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        # Calculate height based on content lines
+        n_lines = max(1, entry.msgstr.count("\n") + 1)
+        # ~24px per line, min 36px, max 200px
+        height = min(200, max(36, n_lines * 24 + 8))
+        scrolled_tv.set_min_content_height(36)
+        scrolled_tv.set_max_content_height(200)
+
+        # Track changes + auto-resize on edit
         text_view.get_buffer().connect("changed", self._on_text_changed, idx)
+        text_view.get_buffer().connect("changed", self._on_buffer_resize, scrolled_tv)
 
         frame = Gtk.Frame()
-        frame.set_child(text_view)
+        frame.set_child(scrolled_tv)
         box.append(frame)
 
-        # Fuzzy checkbox
+        # Bottom row: fuzzy checkbox
         fuzzy_check = Gtk.CheckButton(label=_("Fuzzy"))
         fuzzy_check.set_active(entry.fuzzy)
         fuzzy_check.connect("toggled", self._on_fuzzy_toggled, idx)
@@ -271,6 +295,20 @@ class POEditorWidget(Gtk.Box):
         row.set_child(box)
         self._rows.append({"row": row, "text_view": text_view, "fuzzy": fuzzy_check})
         return row
+
+    def _on_copy_single_source(self, _btn, idx):
+        """Copy source string to translation and mark as fuzzy."""
+        entry = self._entries[idx]
+        entry.msgstr = entry.msgid
+        entry.fuzzy = True
+        self._modified = True
+        self._rebuild_list()
+
+    def _on_buffer_resize(self, buffer, scrolled):
+        """Auto-resize the ScrolledWindow based on content."""
+        line_count = buffer.get_line_count()
+        height = min(200, max(36, line_count * 24 + 8))
+        scrolled.set_min_content_height(height)
 
     def _on_text_changed(self, buffer, idx):
         start = buffer.get_start_iter()
