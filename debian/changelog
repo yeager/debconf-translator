@@ -1,3 +1,10 @@
+debconf-translator (0.1.1-1) unstable; urgency=medium
+
+  * Fix POT download: scrape real URLs from i18n.debian.org index page.
+  * Support gzipped .pot.gz files from Debian infrastructure.
+
+ -- Daniel Nylander <daniel@danielnylander.se>  Tue, 04 Mar 2026 16:55:00 +0100
+
 debconf-translator (0.1.0-1) unstable; urgency=low
 
   * Initial release.

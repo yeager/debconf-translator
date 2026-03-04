@@ -1,6 +1,7 @@
 """Scrape debconf translation status from debian.org."""
 
 import gettext
+import gzip
 import logging
 import re
 import urllib.request
@@ -57,7 +58,7 @@ class _StatusParser(HTMLParser):
                 pkg = DebconfPackage(
                     name=self._current_pkg,
                     strings_total=int(m2.group(1)),
-                    pot_url=f"{POT_BASE}#{self._current_pkg}",
+                    pot_url="",  # Will be resolved from POT index
                 )
                 self.packages.append(pkg)
                 self._current_pkg = ""
@@ -138,20 +139,57 @@ def fetch_language_status(lang_code: str) -> tuple[LanguageStats, list[DebconfPa
     return stats, parser.packages
 
 
+_pot_url_cache: dict[str, str] = {}
+
+
+def _build_pot_url_index() -> dict[str, str]:
+    """Scrape the POT index page to map package names to .pot.gz URLs."""
+    if _pot_url_cache:
+        return _pot_url_cache
+
+    url = f"{POT_BASE}"
+    log.info("Building POT URL index from %s", url)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "DebconfTranslator/0.1"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            html = resp.read().decode("utf-8", errors="replace")
+    except urllib.error.URLError as e:
+        log.error("Failed to fetch POT index: %s", e)
+        return {}
+
+    # Pattern: <a name="PKGNAME" ...>...</a> [<a href="URL">templates.pot</a>]
+    # Match each package anchor followed by its pot.gz link
+    for m in re.finditer(
+        r'<a\s+name="([^"]+)"[^>]*>.*?'
+        r'<a\s+href="(https://i18n\.debian\.org/[^"]*\.pot\.gz)"',
+        html, re.DOTALL
+    ):
+        pkg_name = m.group(1)
+        pot_gz_url = m.group(2)
+        _pot_url_cache[pkg_name] = pot_gz_url
+
+    log.info("Indexed %d POT URLs", len(_pot_url_cache))
+    return _pot_url_cache
+
+
 def fetch_pot_file(package_name: str) -> Optional[str]:
-    """Download the .pot file for a package."""
-    url = f"https://www.debian.org/international/l10n/po-debconf/pot/{package_name}"
-    # The actual pot files are linked from the page
-    # Try common patterns
-    for suffix in [f"{package_name}.pot", f"templates.pot"]:
-        try_url = f"https://www.debian.org/international/l10n/po-debconf/pot/{suffix}"
-        try:
-            req = urllib.request.Request(try_url, headers={"User-Agent": "DebconfTranslator/0.1"})
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                return resp.read().decode("utf-8", errors="replace")
-        except urllib.error.URLError:
-            continue
-    return None
+    """Download the .pot file for a package from i18n.debian.org."""
+    index = _build_pot_url_index()
+    pot_gz_url = index.get(package_name)
+
+    if not pot_gz_url:
+        log.warning("No POT URL found for %s", package_name)
+        return None
+
+    log.info("Downloading %s", pot_gz_url)
+    try:
+        req = urllib.request.Request(pot_gz_url, headers={"User-Agent": "DebconfTranslator/0.1"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            gz_data = resp.read()
+            return gzip.decompress(gz_data).decode("utf-8", errors="replace")
+    except (urllib.error.URLError, gzip.BadGzipFile, OSError) as e:
+        log.error("Failed to download POT for %s: %s", package_name, e)
+        return None
 
 
 def fetch_reviews() -> list[ReviewItem]:
