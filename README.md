@@ -16,6 +16,17 @@ A GTK4/Adwaita tool for managing Debconf template translations in Debian and Ubu
 
 ## Installation
 
+### PyPI / pipx (Debian/Ubuntu)
+
+Install GTK4, libadwaita and the system PyGObject bindings first; pip cannot
+install these native system libraries:
+
+```bash
+sudo apt install python3-gi gir1.2-gtk-4.0 gir1.2-adw-1 pipx
+pipx install --system-site-packages debconf-translator
+```
+
+
 ### From .deb package (Debian/Ubuntu)
 ```bash
 # Add the repository

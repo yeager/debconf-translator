@@ -4,7 +4,7 @@ import gettext
 import locale
 import os
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 __app_id__ = "se.danielnylander.debconf-translator"
 __author__ = "Daniel Nylander"
 __email__ = "daniel@danielnylander.se"
@@ -13,12 +13,6 @@ __email__ = "daniel@danielnylander.se"
 _localedir = os.path.join(os.path.dirname(__file__), '..', 'locale')
 if not os.path.isdir(_localedir):
     _localedir = '/usr/share/locale'
-
-try:
-    locale.bindtextdomain('debconf-translator', _localedir)
-    locale.textdomain('debconf-translator')
-except AttributeError:
-    pass  # macOS
 
 gettext.bindtextdomain('debconf-translator', _localedir)
 gettext.textdomain('debconf-translator')
